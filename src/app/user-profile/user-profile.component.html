@@ -1,0 +1,13 @@
+<div *ngIf="auth.user | async; then authenticated else guest">
+</div>
+
+<ng-template #guest>
+  <button class="button navbar-item" (click)="auth.googleLogin()">Login with Google</button>
+</ng-template>
+
+<ng-template #authenticated>
+  <div class="navbar-item" *ngIf="auth.user | async as user">
+    <p class="button navbar-item">{{ user.displayName }}</p>
+    <button class="button navbar-item" (click)="auth.logout()">Logout</button>
+  </div>
+</ng-template>

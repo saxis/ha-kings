@@ -3,7 +3,15 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  firebaseConfig: {
+    apiKey: 'AIzaSyBTXMB5ICtMCKjIETLB59xnRtgy8EA0zVw',
+    authDomain: 'ha-kings.firebaseapp.com',
+    databaseURL: 'https://ha-kings.firebaseio.com',
+    projectId: 'ha-kings',
+    storageBucket: '',
+    messagingSenderId: '822808779972'
+  }
 };
 
 /*
@@ -12,4 +20,4 @@ export const environment = {
  * below file. Don't forget to comment it out in production mode
  * because it will have a performance impact when errors are thrown
  */
-// import 'zone.js/dist/zone-error';  // Included with Angular CLI.
+import 'zone.js/dist/zone-error';  // Included with Angular CLI.

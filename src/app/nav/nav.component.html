@@ -1,0 +1,21 @@
+<nav class="navbar" role="navigation" aria-label="main navigation">
+  <div class="container">
+    <div class="navbar-brand">
+      <a class="navbar-item has-text-weight-bold" href="https://ha-kings.firebaseapp.com/">KINGS</a>
+      <div class="navbar-burger burger" data-target="navMenu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+    <div class="navbar-menu" id="navMenu">
+      <div class="navbar-end">
+          <app-user-profile class="navbar-item"></app-user-profile>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<div>
+  <div *ngIf="errorMessage">{{ errorMessage }}</div>
+</div>

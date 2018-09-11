@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { AuthService } from './core/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -7,4 +8,10 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'ha-kings2';
+
+  constructor(public auth: AuthService) {}
+
+  isLoggedIn() {
+    return this.auth.isLoggedIn();
+  }
 }
