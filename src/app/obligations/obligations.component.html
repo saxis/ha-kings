@@ -1,7 +1,52 @@
-<div class="content">
+<div class="container">
+  <div class="columns">
+    <div class="column">
+      <nav class="panel">
+        <p class="panel-heading">
+          Obligations
+        </p>
+        <div class="panel-block">
+          <p class="control has-icons-left">
+            <input class="input is-small" type="text" placeholder="search">
+            <span class="icon is-small is-left">
+              <i class="fas fa-search" aria-hidden="true"></i>
+            </span>
+          </p>
+        </div>
+        <div *ngFor="let item of obligationsList | async">
+          <a class="panel-block is-active has-icons-right control">
+            {{item.biller}} || {{item.expectedAmount}} || {{item.dueDate}}
+            <form #u="ngForm" (ngSubmit)="payNow(u,item)" *ngIf="!item.paid">
+              <input class="input is-success short" type="text" placeholder="Amount Paid" ngModel name="amountPaid">
+              <button class="button">PAY</button>
+            </form>
+            <button class="button" (click)="removeObligation(item)">DELETE</button>
+            <button *ngIf="item.paid" class="button">PAID</button>
+          </a>
+        </div>
+      </nav>
+    </div>
+    <div class="column">
+      <form #f="ngForm" (ngSubmit)="onSubmit(f)" novalidate>
+        <div class="field">
+          <label class="label">Add Obligation</label>
+          <div class="control has-icons-left has-icons-right">
+            <input class="input is-success" type="text"   placeholder="Who is the biller?"  name="biller" ngModel required #jonesy="ngModel">
+            <input class="input is-success" type="date"   placeholder="What is the due date?"          name="dueDate"      ngModel required >
+            <input class="input is-success" type="number"   placeholder="How much should it be?"       name="expectedAmount"    ngModel required >
+          </div>
+        </div>
+        <button class="button">Submit</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+  <div class="content">
     <h1>Obligations Page Design</h1>
     <p>Obligations should be a list of all the monthly bills a person has. The Obligations total should be on the top. You should be able to click
         on any of the bills to get more details. I can find out how to do this by taking the routing course on Pluralsight. The details will show up in card to the right of the list.</p>
+    <p>Obligations are future date based expenditures that cannot be ‘paid off’. They are recurring expenses, generally monthly, though some are quarterly, yearly or some other option. Obligations are lifestyle driven, most can be cancelled temporarily or permanently to reduce overall spend as desired/required. </p>
     <h2>Details Panel</h2>
     <p>Some of the options for the details panel should include </p>
     <ul>
@@ -85,6 +130,4 @@
         Figure 1: Some beautiful placeholders
       </figcaption>
     </figure>
-    <h6>Sixth level</h6>
-    <p>Cras in nibh lacinia, venenatis nisi et, auctor urna. Donec pulvinar lacus sed diam dignissim, ut eleifend eros accumsan. Phasellus non tortor eros. Ut sed rutrum lacus. Etiam purus nunc, scelerisque quis enim vitae, malesuada ultrices turpis. Nunc vitae maximus purus, nec consectetur dui. Suspendisse euismod, elit vel rutrum commodo, ipsum tortor maximus dui, sed varius sapien odio vitae est. Etiam at cursus metus.</p>
   </div>

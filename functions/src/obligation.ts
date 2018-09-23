@@ -1,11 +1,10 @@
 import * as functions from 'firebase-functions';
 import * as admin from 'firebase-admin';
-import { user } from 'firebase-functions/lib/providers/auth';
 
 const db = admin.firestore();
 
-export const desireCount = functions.firestore
-  .document('desires/{desireId}')
+export const obligationIncrement = functions.firestore
+  .document('obligations/{obligationId}')
   .onCreate(async (snapshot, context) => {
 
     const data = snapshot.data();
@@ -14,13 +13,13 @@ export const desireCount = functions.firestore
     const userData = userSnap.data();
 
     return userRef.update({
-      desiresCount: userData.desiresCount + 1,
-      desiresTotal: userData.desiresTotal + Number(data.amount)
+      obligationCount: userData.obligationCount + 1,
+      obligationTotal: userData.obligationTotal + Number(data.expectedAmount)
     });
 })
 
-export const desireDecrement = functions.firestore
-  .document('desires/{desireId}')
+export const obligationDecrement = functions.firestore
+  .document('obligations/{obligationId}')
   .onDelete(async (snapshot, context) => {
     const data = snapshot.data();
     const userRef = db.doc(`users/${data.owner}`);
@@ -28,13 +27,13 @@ export const desireDecrement = functions.firestore
     const userData = userSnap.data();
 
     return userRef.update({
-      desiresCount: userData.desiresCount - 1,
-      desiresTotal: userData.desiresTotal - Number(data.amount)
+      obligationCount: userData.obligationCount - 1,
+      obligationTotal: userData.obligationTotal - Number(data.expectedAmount)
     });
-})
+});
 
-export const desireUpdate = functions.firestore
-  .document('desires/{desireId}')
+export const obligationUpdate = functions.firestore
+  .document('obligations/{obligationId}')
   .onUpdate(async (snapshot, context) => {
     const before = snapshot.before.data();
     const after = snapshot.after.data();
@@ -42,11 +41,10 @@ export const desireUpdate = functions.firestore
     const userSnap = await userRef.get();
     const userData = userSnap.data();
 
-    if (before.fulfilled === false && after.fulfilled === true) {
+    if (after.amountPaid) {
       return userRef.update({
-        earningsTotal: userData.earningsTotal - before.amount,
-        desiresTotal: userData.desiresTotal - before.amount
-      })
+        earningsTotal: userData.earningsTotal - after.amountPaid
+      });
     } else {
       return 304
     }

@@ -9,5 +9,13 @@ export class UserProfileComponent {
 
   constructor(public auth: AuthService) { }
 
+  onPayment (payment) {
+    console.log('on payment: ', payment);
+  }
+
+  onError (error) {
+    console.log('there was an error: ', error);
+  }
+
 
 }

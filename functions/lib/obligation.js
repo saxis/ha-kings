@@ -11,46 +11,45 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const functions = require("firebase-functions");
 const admin = require("firebase-admin");
 const db = admin.firestore();
-exports.desireCount = functions.firestore
-    .document('desires/{desireId}')
+exports.obligationIncrement = functions.firestore
+    .document('obligations/{obligationId}')
     .onCreate((snapshot, context) => __awaiter(this, void 0, void 0, function* () {
     const data = snapshot.data();
     const userRef = db.doc(`users/${data.owner}`);
     const userSnap = yield userRef.get();
     const userData = userSnap.data();
     return userRef.update({
-        desiresCount: userData.desiresCount + 1,
-        desiresTotal: userData.desiresTotal + Number(data.amount)
+        obligationCount: userData.obligationCount + 1,
+        obligationTotal: userData.obligationTotal + Number(data.expectedAmount)
     });
 }));
-exports.desireDecrement = functions.firestore
-    .document('desires/{desireId}')
+exports.obligationDecrement = functions.firestore
+    .document('obligations/{obligationId}')
     .onDelete((snapshot, context) => __awaiter(this, void 0, void 0, function* () {
     const data = snapshot.data();
     const userRef = db.doc(`users/${data.owner}`);
     const userSnap = yield userRef.get();
     const userData = userSnap.data();
     return userRef.update({
-        desiresCount: userData.desiresCount - 1,
-        desiresTotal: userData.desiresTotal - Number(data.amount)
+        obligationCount: userData.obligationCount - 1,
+        obligationTotal: userData.obligationTotal - Number(data.expectedAmount)
     });
 }));
-exports.desireUpdate = functions.firestore
-    .document('desires/{desireId}')
+exports.obligationUpdate = functions.firestore
+    .document('obligations/{obligationId}')
     .onUpdate((snapshot, context) => __awaiter(this, void 0, void 0, function* () {
     const before = snapshot.before.data();
     const after = snapshot.after.data();
     const userRef = db.doc(`users/${before.owner}`);
     const userSnap = yield userRef.get();
     const userData = userSnap.data();
-    if (before.fulfilled === false && after.fulfilled === true) {
+    if (after.amountPaid) {
         return userRef.update({
-            earningsTotal: userData.earningsTotal - before.amount,
-            desiresTotal: userData.desiresTotal - before.amount
+            earningsTotal: userData.earningsTotal - after.amountPaid
         });
     }
     else {
         return 304;
     }
 }));
-//# sourceMappingURL=desire.js.map
+//# sourceMappingURL=obligation.js.map

@@ -15,13 +15,16 @@
             </p>
           </div>
           <div *ngFor="let desire of desiresList | async">
-            <a class="panel-block is-active has-icons-right control">
+            <a routerLinkActive="active" [routerLink]="['/desires', desire.id]" class="panel-block is-active has-icons-right control">
               {{desire.name}} || {{desire.amount}} || {{desire.recipient}}
               <button class="button" (click)="removeDesire(desire)">DELETE</button>
               <button class="button" (click)="doNow(desire)">DO NOW</button>
             </a>
           </div>
         </nav>
+    </div>
+    <div class="column">
+      <router-outlet></router-outlet>
     </div>
     <!-- <div class="column is-half" dragula="DESIRES" [(dragulaModel)]="desiresList">
       <div *ngFor="let desire of desiresList | async">

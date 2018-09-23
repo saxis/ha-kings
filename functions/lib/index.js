@@ -11,8 +11,15 @@ exports.basicHTTP = http_1.basicHTTP;
 exports.api = http_1.api;
 var auth_1 = require("./auth");
 exports.createUserRecord = auth_1.createUserRecord;
-// export { gameCount } from './firestore';
 var desire_1 = require("./desire");
 exports.desireCount = desire_1.desireCount;
 exports.desireDecrement = desire_1.desireDecrement;
+exports.desireUpdate = desire_1.desireUpdate;
+var obligation_1 = require("./obligation");
+exports.obligationIncrement = obligation_1.obligationIncrement;
+exports.obligationDecrement = obligation_1.obligationDecrement;
+exports.obligationUpdate = obligation_1.obligationUpdate;
+var earning_1 = require("./earning");
+exports.earningIncrement = earning_1.earningIncrement;
+exports.earningDecrement = earning_1.earningDecrement;
 //# sourceMappingURL=index.js.map

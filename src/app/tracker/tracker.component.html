@@ -1,32 +1,32 @@
 <nav class="level" *ngIf="auth.user | async as user">
   <div class="level-item has-text-centered">
     <div>
-      <p class="heading">Obligations Total</p>
-      <p class="title">{{user.obligationTotal}}</p>
+      <p class="heading">Monthly Obligations</p>
+      <p class="title">{{user.obligationTotal | currency:'USD':true:'1.2'}}</p>
     </div>
   </div>
   <div class="level-item has-text-centered">
     <div>
       <p class="heading">Desires Total</p>
-      <p class="title">{{user.desiresTotal}}</p>
+      <p class="title">{{user.desiresTotal | currency:'USD':true:'1.2'}}</p>
     </div>
   </div>
   <div class="level-item has-text-centered">
     <div>
       <p class="heading">Remaining Earnings</p>
-      <p class="title">{{user.earningsTotal}}</p>
+      <p class="title">{{user.earningsTotal | currency:'USD':true:'1.2'}}</p>
     </div>
   </div>
   <div class="level-item has-text-centered">
     <div>
       <p class="heading">Debts Total</p>
-      <p class="title">{{user.debtTotal}}</p>
+      <p class="title">{{user.debtTotal | currency:'USD':true:'1.2'}}</p>
     </div>
   </div>
   <div class="level-item has-text-centered">
     <div>
       <p class="heading">Assets Total</p>
-      <p class="title">{{user.assetTotal}}</p>
+      <p class="title">{{user.assetTotal | currency:'USD':true:'1.2'}}</p>
     </div>
   </div>
 </nav>

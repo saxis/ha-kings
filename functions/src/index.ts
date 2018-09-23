@@ -9,5 +9,6 @@ import * as functions from 'firebase-functions';
 
 export { basicHTTP, api } from './http';
 export { createUserRecord } from './auth';
-// export { gameCount } from './firestore';
-export { desireCount, desireDecrement } from './desire';
+export { desireCount, desireDecrement, desireUpdate } from './desire';
+export { obligationIncrement, obligationDecrement, obligationUpdate } from './obligation';
+export { earningIncrement, earningDecrement } from './earning';
