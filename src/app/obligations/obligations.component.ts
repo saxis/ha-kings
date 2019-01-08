@@ -58,12 +58,8 @@ export class ObligationsComponent implements OnInit {
     const data = JSON.parse(JSON.stringify(obligation));
 
     this.obligationsCollection.add(data);
+
+    f.reset();
   }
-  // biller: string;
-  // dueDate: string;
-  // datePaid?: string;
-  // expectedAmount: number;
-  // amountPaid: number;
-  // paid: boolean;
-  // owner: string;
+
 }

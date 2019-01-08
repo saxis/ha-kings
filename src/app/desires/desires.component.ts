@@ -62,6 +62,8 @@ export class DesiresComponent implements OnInit {
     const data = JSON.parse(JSON.stringify(desire));
 
     this.desiresCollection.add(data);
+
+    f.reset();
   }
 
 }

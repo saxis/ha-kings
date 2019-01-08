@@ -50,6 +50,8 @@ export class EarningsComponent implements OnInit {
     const data = JSON.parse(JSON.stringify(earning));
 
     this.earningsCollection.add(data);
+
+    f.reset();
   }
 
 }

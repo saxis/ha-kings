@@ -19,6 +19,7 @@
 <ng-template #authenticated>
   <div class="navbar-item" *ngIf="auth.user | async as user">
     <!-- <p class="button navbar-item"></p> -->
-    <button class="button navbar-item" (click)="auth.logout()"> {{ user.displayName }} Logout</button>
+    <button class="button navbar-item" (click)="auth.logout()"> Logout</button>
+    <!-- <button class="button navbar-item" (click)="auth.logout()"> {{ user.displayName }} Logout</button> -->
   </div>
 </ng-template>
