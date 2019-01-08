@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Desire } from '../../models/desire.model';
 import { NgForm } from '@angular/forms';
-import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/firestore';
+import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { AuthService } from '../core/auth.service';
 import { map } from 'rxjs/operators';
