@@ -1,13 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from '@angular/fire/firestore';
+import { Asset } from '../../models/asset.model';
+import { NgForm } from '@angular/forms';
+import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
-
-
-interface Asset {
-  name: string;
-  detail: string;
-  amount: number;
-}
+import { AuthService } from '../core/auth.service';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-assets',
@@ -15,26 +12,47 @@ interface Asset {
   styleUrls: ['./assets.component.sass']
 })
 export class AssetsComponent implements OnInit {
-  notesCollection: AngularFirestoreCollection<Asset>;
-  notes: Observable<Asset[]>;
-  data = {
-    name: 'Savings Account',
-    detail: 'Simple Backup Checking',
-    amount: 100.0
-  };
+  assetsCollection: AngularFirestoreCollection<Asset>;
+  assetsList$: Observable<Asset[]>;
+  userId: string;
 
-  constructor(private afs: AngularFirestore) { }
-
-  ngOnInit() {
-    this.notesCollection = this.afs.collection('assets'); // reference
-    this.notes = this.notesCollection.valueChanges(); // observable of notes data
+  constructor(private afs: AngularFirestore, private as: AuthService) {
+    this.as.afAuth.authState.subscribe(user => {
+      if (user) {
+        this.userId = user.uid;
+      }
+    });
   }
 
-  addData() {
-    this.notesCollection = this.afs.collection('assets');
-    this.notesCollection.add(this.data)
-      .then(() => console.log('success'))
-      .catch(err => console.log(err));
+  ngOnInit() {
+    // Need to get the current month and then add a where clause for the current month only
+
+    this.assetsCollection = this.afs.collection('assets', ref => ref.where('owner', '==', this.userId));
+    this.assetsList$ = this.assetsCollection.snapshotChanges().pipe(
+      map(actions => {
+        return actions.map(a => {
+          const data = a.payload.doc.data() as Asset;
+          const id = a.payload.doc.id;
+          return { id, ...data };
+        });
+      })
+    );
+  }
+
+  removeAsset(asset) {
+    const doc = this.afs.doc(`assets/${asset.id}`);
+    doc.delete();
+  }
+
+  onSubmit(f: NgForm) {
+    const debt = new Asset(f.value.biller, f.value.original_financed_amount, f.value.principal_balance,
+      f.value.due_date, f.value.past_due_amount, f.value.total_amount_due, f.value.interest_rate, f.value.payoff_amount, this.userId);
+
+    const data = JSON.parse(JSON.stringify(debt));
+
+    this.assetsCollection.add(data);
+
+    f.reset();
   }
 
 }

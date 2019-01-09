@@ -12,3 +12,4 @@ export { createUserRecord } from './auth';
 export { desireCount, desireDecrement, desireUpdate } from './desire';
 export { obligationIncrement, obligationDecrement, obligationUpdate } from './obligation';
 export { earningIncrement, earningDecrement } from './earning';
+export { debtIncrement, debtDecrement } from './debt';

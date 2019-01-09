@@ -14,10 +14,10 @@ exports.createUserRecord = functions.auth.user().onCreate((user, context) => {
         desiresTotal: 0,
         obligationCount: 0,
         obligationTotal: 0,
-        debtCount: 0,
-        debtTotal: 0,
-        assetCount: 0,
-        assetTotal: 0,
+        debtsCount: 0,
+        debtsTotal: 0,
+        assetsCount: 0,
+        assetsTotal: 0,
         earningsCount: 0,
         earningsTotal: 0
     });

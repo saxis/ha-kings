@@ -15,10 +15,10 @@ interface User {
   desiresTotal?: number;
   obligationCount?: number;
   obligationTotal?: number;
-  debtCount?: number;
-  debtTotal?: number;
-  assetCount?: number;
-  assetTotal?: number;
+  debtsCount?: number;
+  debtsTotal?: number;
+  assetsCount?: number;
+  assetsTotal?: number;
   earningsCount?: number;
   earningsTotal?: number;
 }
@@ -69,10 +69,10 @@ export class AuthService {
       desiresTotal: 0,
       obligationCount: 0,
       obligationTotal: 0,
-      debtCount: 0,
-      debtTotal: 0,
-      assetCount: 0,
-      assetTotal: 0,
+      debtsCount: 0,
+      debtsTotal: 0,
+      assetsCount: 0,
+      assetsTotal: 0,
       earningsCount: 0,
       earningsTotal: 0
     };
