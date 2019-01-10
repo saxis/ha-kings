@@ -13,8 +13,8 @@ export const obligationIncrement = functions.firestore
     const userData = userSnap.data();
 
     return userRef.update({
-      obligationCount: userData.obligationCount + 1,
-      obligationTotal: userData.obligationTotal + Number(data.expectedAmount)
+      obligationsCount: userData.obligationsCount + 1,
+      obligationsTotal: userData.obligationsTotal + Number(data.expectedAmount)
     });
 })
 
@@ -27,7 +27,7 @@ export const obligationDecrement = functions.firestore
     const userData = userSnap.data();
 
     return userRef.update({
-      obligationCount: userData.obligationCount - 1,
+      obligationsCount: userData.obligationsCount - 1,
       obligationTotal: userData.obligationTotal - Number(data.expectedAmount)
     });
 });

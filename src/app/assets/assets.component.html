@@ -15,7 +15,7 @@
         </div>
         <div *ngFor="let item of assetsList$ | async">
           <a class="panel-block is-active has-icons-right control">
-            {{item.biller}} || {{item.due_date}} || {{item.total_amount_due}}
+            {{item.asset_denomination}} || {{item.balance}} || {{item.purchase_time_value}} || {{item.current_value}}
             <button class="button" (click)="removeAsset(item)">DELETE</button>
           </a>
         </div>
@@ -26,14 +26,10 @@
         <div class="field">
           <label class="label">Add Asset</label>
           <div class="control has-icons-left has-icons-right">
-            <input class="input is-success" type="text"   placeholder="Biller"  name="biller" ngModel required  />
-            <input class="input is-success" type="number" placeholder="Original Financed Amount"  name="original_financed_amount" ngModel required >
-            <input class="input is-success" type="number" placeholder="Principal Balance"  name="principal_balance" ngModel required >
-            <input class="input is-success" type="date"   placeholder="Due Date" name="due_date"   ngModel required >
-            <input class="input is-success" type="number" placeholder="Past Due Amount"  name="past_due_amount" ngModel required >
-            <input class="input is-success" type="number" placeholder="Total Amount Due"  name="total_amount_due" ngModel required >
-            <input class="input is-success" type="number" placeholder="Interest Rate"  name="interest_rate" ngModel required >
-            <input class="input is-success" type="number" placeholder="Payoff Amount"  name="payoff_amount" ngModel required >
+            <input class="input is-success" type="text"   placeholder="Fiat, ETH, BTC, BCH etc"  name="asset_denomination" ngModel required  />
+            <input class="input is-success" type="number" placeholder="Balance"  name="balance" ngModel required >
+            <input class="input is-success" type="number" placeholder="Purchase Price Per Full Unit"  name="purchase_price_per_full_unit" ngModel required >
+            <input class="input is-success" type="number"   placeholder="Current Price Per Full Unit" name="current_price_per_full_unit"   ngModel required >
           </div>
         </div>
         <button class="button">Submit</button>

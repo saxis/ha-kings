@@ -13,7 +13,7 @@ export const createUserRecord = functions.auth.user().onCreate((user, context) =
     displayName: user.displayName,
     desiresCount: 0,
     desiresTotal: 0,
-    obligationCount: 0,
+    obligationsCount: 0,
     obligationTotal: 0,
     debtsCount: 0,
     debtsTotal: 0,

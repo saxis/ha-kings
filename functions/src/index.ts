@@ -13,3 +13,4 @@ export { desireCount, desireDecrement, desireUpdate } from './desire';
 export { obligationIncrement, obligationDecrement, obligationUpdate } from './obligation';
 export { earningIncrement, earningDecrement } from './earning';
 export { debtIncrement, debtDecrement } from './debt';
+export { assetIncrement, assetDecrement } from './asset';

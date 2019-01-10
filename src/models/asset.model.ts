@@ -1,33 +1,34 @@
 export class Asset {
-  biller: string;
-  original_financed_amount: number;
-  principal_balance: number;
-  due_date: string;
-  past_due_amount: number;
-  total_amount_due: number;
-  interest_rate: number;
-  payoff_amount: number;
+  asset_denomination: string; // ether, bitcoin, fiat;
+  balance: number; // btc .00000000 ether 0.0000000000000000 fiat 0.00
+  purchase_price_per_full_unit: number;
+  current_price_per_full_unit: number;
+  purchase_time_value: number;
+  current_value: number;
   owner: string;
 
-  // original financed amount $33,465.72
-  // principal balance: $19,323.67
-  // due date string
-  // past due amount: 666.45
-  // total amount due: 666.45
-  // Interest rate: 12.5
-  // payoff amount: $19,502.35
-
-  constructor(biller, original_financed_amount, principal_balance, due_date, past_due_amount,
-    total_amount_due, interest_rate, payoff_amount, owner) {
-    this.biller = biller;
-    this.original_financed_amount = original_financed_amount;
-    this.principal_balance = principal_balance;
-    this.due_date = due_date;
-    this.past_due_amount = past_due_amount;
-    this.total_amount_due = total_amount_due;
-    this.interest_rate = interest_rate;
-    this.payoff_amount = payoff_amount;
+  constructor(asset_denomination, balance, purchase_price_per_full_unit, current_price_per_full_unit,
+    purchase_time_value, current_value, owner) {
+    this.asset_denomination = asset_denomination;
+    this.balance = balance;
+    this.purchase_price_per_full_unit = purchase_price_per_full_unit;
+    this.current_price_per_full_unit = current_price_per_full_unit;
+    this.purchase_time_value = purchase_time_value;
+    this.current_value = current_value;
     this.owner = owner;
   }
 
 }
+
+  // 2 things to track.
+  // 1. The trade itself. - Will need to tie the asset to the trade data before releasing the application
+  // 2. The asset after aquisition
+  // fiat or crypto
+  // number of units purchased
+  // price per unit a purchase time
+  // purchase or exchange fees
+  // current price per unit
+  // current value (curent price per unit * units)
+  // dividend or not
+  // interest or not
+  // next dividend date

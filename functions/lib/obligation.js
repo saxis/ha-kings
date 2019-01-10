@@ -19,8 +19,8 @@ exports.obligationIncrement = functions.firestore
     const userSnap = yield userRef.get();
     const userData = userSnap.data();
     return userRef.update({
-        obligationCount: userData.obligationCount + 1,
-        obligationTotal: userData.obligationTotal + Number(data.expectedAmount)
+        obligationsCount: userData.obligationsCount + 1,
+        obligationsTotal: userData.obligationsTotal + Number(data.expectedAmount)
     });
 }));
 exports.obligationDecrement = functions.firestore
@@ -31,8 +31,8 @@ exports.obligationDecrement = functions.firestore
     const userSnap = yield userRef.get();
     const userData = userSnap.data();
     return userRef.update({
-        obligationCount: userData.obligationCount - 1,
-        obligationTotal: userData.obligationTotal - Number(data.expectedAmount)
+        obligationsCount: userData.obligationsCount - 1,
+        obligationsTotal: userData.obligationsTotal - Number(data.expectedAmount)
     });
 }));
 exports.obligationUpdate = functions.firestore

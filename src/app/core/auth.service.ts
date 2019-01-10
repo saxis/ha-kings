@@ -13,8 +13,8 @@ interface User {
   displayName?: string;
   desiresCount?: number;
   desiresTotal?: number;
-  obligationCount?: number;
-  obligationTotal?: number;
+  obligationsCount?: number;
+  obligationsTotal?: number;
   debtsCount?: number;
   debtsTotal?: number;
   assetsCount?: number;
@@ -67,8 +67,8 @@ export class AuthService {
       displayName: user.displayName,
       desiresCount: 0,
       desiresTotal: 0,
-      obligationCount: 0,
-      obligationTotal: 0,
+      obligationsCount: 0,
+      obligationsTotal: 0,
       debtsCount: 0,
       debtsTotal: 0,
       assetsCount: 0,

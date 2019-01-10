@@ -45,8 +45,11 @@ export class AssetsComponent implements OnInit {
   }
 
   onSubmit(f: NgForm) {
-    const debt = new Asset(f.value.biller, f.value.original_financed_amount, f.value.principal_balance,
-      f.value.due_date, f.value.past_due_amount, f.value.total_amount_due, f.value.interest_rate, f.value.payoff_amount, this.userId);
+    const purchase_val = Number(f.value.balance * f.value.purchase_price_per_full_unit).toFixed(2);
+    const current_val = Number(f.value.balance * f.value.current_price_per_full_unit).toFixed(2);
+
+    const debt = new Asset(f.value.asset_denomination, f.value.balance, f.value.purchase_price_per_full_unit,
+      f.value.current_price_per_full_unit, purchase_val, current_val, this.userId);
 
     const data = JSON.parse(JSON.stringify(debt));
 
