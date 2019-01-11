@@ -25,4 +25,7 @@ exports.earningDecrement = earning_1.earningDecrement;
 var debt_1 = require("./debt");
 exports.debtIncrement = debt_1.debtIncrement;
 exports.debtDecrement = debt_1.debtDecrement;
+var asset_1 = require("./asset");
+exports.assetIncrement = asset_1.assetIncrement;
+exports.assetDecrement = asset_1.assetDecrement;
 //# sourceMappingURL=index.js.map

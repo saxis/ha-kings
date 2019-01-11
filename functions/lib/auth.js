@@ -13,7 +13,7 @@ exports.createUserRecord = functions.auth.user().onCreate((user, context) => {
         desiresCount: 0,
         desiresTotal: 0,
         obligationsCount: 0,
-        obligationsTotal: 0,
+        obligationTotal: 0,
         debtsCount: 0,
         debtsTotal: 0,
         assetsCount: 0,

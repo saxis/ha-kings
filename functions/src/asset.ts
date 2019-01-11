@@ -19,7 +19,7 @@ export const assetIncrement = functions.firestore
 
   });
 
-export const assettDecrement = functions.firestore
+export const assetDecrement = functions.firestore
   .document('assets/{assetId}')
   .onDelete(async (snapshot, context) => {
 

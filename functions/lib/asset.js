@@ -11,45 +11,28 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const functions = require("firebase-functions");
 const admin = require("firebase-admin");
 const db = admin.firestore();
-exports.obligationIncrement = functions.firestore
-    .document('obligations/{obligationId}')
+exports.assetIncrement = functions.firestore
+    .document('assets/{assetId}')
     .onCreate((snapshot, context) => __awaiter(this, void 0, void 0, function* () {
     const data = snapshot.data();
     const userRef = db.doc(`users/${data.owner}`);
     const userSnap = yield userRef.get();
     const userData = userSnap.data();
     return userRef.update({
-        obligationsCount: userData.obligationsCount + 1,
-        obligationsTotal: userData.obligationsTotal + Number(data.expectedAmount)
+        assetsCount: userData.assetsCount + 1,
+        assetsTotal: userData.assetsTotal + Number(data.current_value)
     });
 }));
-exports.obligationDecrement = functions.firestore
-    .document('obligations/{obligationId}')
+exports.assetDecrement = functions.firestore
+    .document('assets/{assetId}')
     .onDelete((snapshot, context) => __awaiter(this, void 0, void 0, function* () {
     const data = snapshot.data();
     const userRef = db.doc(`users/${data.owner}`);
     const userSnap = yield userRef.get();
     const userData = userSnap.data();
     return userRef.update({
-        obligationsCount: userData.obligationsCount - 1,
-        obligationTotal: userData.obligationTotal - Number(data.expectedAmount)
+        assetsCount: userData.assetsCount - 1,
+        assetsTotal: userData.assetsTotal - Number(data.current_value)
     });
 }));
-exports.obligationUpdate = functions.firestore
-    .document('obligations/{obligationId}')
-    .onUpdate((snapshot, context) => __awaiter(this, void 0, void 0, function* () {
-    const before = snapshot.before.data();
-    const after = snapshot.after.data();
-    const userRef = db.doc(`users/${before.owner}`);
-    const userSnap = yield userRef.get();
-    const userData = userSnap.data();
-    if (after.amountPaid) {
-        return userRef.update({
-            earningsTotal: userData.earningsTotal - after.amountPaid
-        });
-    }
-    else {
-        return 304;
-    }
-}));
-//# sourceMappingURL=obligation.js.map
+//# sourceMappingURL=asset.js.map
