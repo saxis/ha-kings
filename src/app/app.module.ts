@@ -28,6 +28,9 @@ import { AuthGuard } from './core/auth.guard';
 import { TrackerComponent } from './tracker/tracker.component';
 import { DesireItemComponent } from './desires/desire-item/desire-item.component';
 import { ObligationDetailComponent } from './obligations/obligation-detail/obligation-detail.component';
+import { OTrackerComponent } from './o-tracker/o-tracker.component';
+import { FTrackerComponent } from './f-tracker/f-tracker.component';
+import { DTrackerComponent } from './d-tracker/d-tracker.component';
 export const firebaseConfig = environment.firebaseConfig;
 
 
@@ -47,7 +50,10 @@ export const firebaseConfig = environment.firebaseConfig;
     UserProfileComponent,
     TrackerComponent,
     DesireItemComponent,
-    ObligationDetailComponent
+    ObligationDetailComponent,
+    OTrackerComponent,
+    FTrackerComponent,
+    DTrackerComponent
   ],
   providers: [
     AuthGuard

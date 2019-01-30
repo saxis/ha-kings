@@ -20,7 +20,8 @@ export const createUserRecord = functions.auth.user().onCreate((user, context) =
     assetsCount: 0,
     assetsTotal: 0,
     earningsCount: 0,
-    earningsTotal: 0
+    earningsTotal: 0,
+    financesTotal: 0
   });
 
 });

@@ -21,6 +21,7 @@ interface User {
   assetsTotal?: number;
   earningsCount?: number;
   earningsTotal?: number;
+  financesTotal?: number;
 }
 
 @Injectable({
@@ -74,7 +75,8 @@ export class AuthService {
       assetsCount: 0,
       assetsTotal: 0,
       earningsCount: 0,
-      earningsTotal: 0
+      earningsTotal: 0,
+      financesTotal: 0
     };
 
     if (userRef) {

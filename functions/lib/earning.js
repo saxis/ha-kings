@@ -20,7 +20,10 @@ exports.earningIncrement = functions.firestore
     const userData = userSnap.data();
     return userRef.update({
         earningsCount: userData.earningsCount + 1,
-        earningsTotal: userData.earningsTotal + Number(data.amount)
+        earningsTotal: userData.earningsTotal + Number(data.amount),
+        obligationsTotal: userData.obligationsTotal + Number(data.amount * .5),
+        desiresTotal: userData.desiresTotal + Number(data.amount * .3),
+        financesTotal: userData.financesTotal + Number(data.amount * .2),
     });
 }));
 exports.earningDecrement = functions.firestore
