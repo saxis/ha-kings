@@ -1,10 +1,10 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { library } from '@fortawesome/fontawesome-svg-core';
-import { fas } from '@fortawesome/free-solid-svg-icons';
-import { fab } from '@fortawesome/free-brands-svg-icons';
-library.add(fas, fab);
+//import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+// import { library } from '@fortawesome/fontawesome-svg-core';
+// import { fas } from '@fortawesome/free-solid-svg-icons';
+// import { fab } from '@fortawesome/free-brands-svg-icons';
+// library.add(fas, fab);
 import { AppComponent } from './app.component';
 import { MainComponent } from './main/main.component';
 import { NavComponent } from './nav/nav.component';
@@ -60,7 +60,7 @@ export const firebaseConfig = environment.firebaseConfig;
   ],
   imports: [
     CoreModule,
-    FontAwesomeModule,
+    // FontAwesomeModule,
     AppRoutingModule,
     BrowserModule,
     FormsModule,

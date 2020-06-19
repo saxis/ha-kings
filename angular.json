@@ -10,13 +10,14 @@
       "prefix": "app",
       "schematics": {
         "@schematics/angular:component": {
-          "styleext": "sass"
+          "style": "sass"
         }
       },
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "aot": true,
             "outputPath": "dist/ha-kings2",
             "index": "src/index.html",
             "main": "src/main.ts",
@@ -34,6 +35,12 @@
           },
           "configurations": {
             "production": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb"
+                }
+              ],
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
@@ -128,5 +135,8 @@
       }
     }
   },
-  "defaultProject": "ha-kings2"
+  "defaultProject": "ha-kings2",
+  "cli": {
+    "analytics": "e4e141a9-a033-4cd1-b6ce-25fe0bae6ec4"
+  }
 }
