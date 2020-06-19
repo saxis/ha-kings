@@ -1,11 +1,12 @@
 <section class="hero is-dark">
   <div class="hero-body">
     <div class="container has-text-centered">
-        <!-- <img src="/assets/img/LogoMakr-3rYPw3-300dpi.png" style="width: 25%" alt=""> -->
-        <!-- <img src="/assets/img/LogoMakr-3rYPw3.png" style="width: 25%" alt="">
-        <img src="/assets/img/LogoMakr-3rYPw3.svg" style="width: 25%" alt=""> -->
-        <img src="/assets/img/suten-vector-svg.svg" style="width: 25%" alt="">
-        <!-- <img src="/assets/img/suten-white.jpeg" style="width: 25%" alt=""> -->
-      </div>
+      <img src="/assets/img/sutenbw1.png" style="width: 50%" alt="" (click)="sutenClicked()">
+      <!-- <img src="/assets/img/LogoMakr-3rYPw3-300dpi.png" style="width: 25%" alt=""> -->
+      <!-- <img src="/assets/img/LogoMakr-3rYPw3.png" style="width: 25%" alt="">
+      <img src="/assets/img/LogoMakr-3rYPw3.svg" style="width: 25%" alt=""> -->
+      <!-- <img src="/assets/img/suten-white.jpeg" style="width: 25%" alt=""> -->
+      <div class="messageclass" *ngIf="showmessage">{{message}}</div>
+    </div>
   </div>
 </section>

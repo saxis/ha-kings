@@ -14,7 +14,7 @@ export const obligationIncrement = functions.firestore
 
     return userRef.update({
       obligationsCount: userData.obligationsCount + 1,
-      obligationsTotal: userData.obligationsScheduledTotal + Number(data.expectedAmount)
+      obligationsScheduledTotal: userData.obligationsScheduledTotal + Number(data.expectedAmount)
     });
 })
 
@@ -26,32 +26,18 @@ export const obligationDecrement = functions.firestore
     const userSnap = await userRef.get();
     const userData = userSnap.data();
 
-    if (userData.obligationsTotal - Number(data.expectedAmount) < 0) {
-      if (userData.obligationsCount - 1 < 0) {
-        return userRef.update({
-          obligationsCount: 0,
-          obligationsTotal: 0
-        });
-      } else {
-        return userRef.update({
-          obligationsCount: userData.obligationsCount - 1,
-          obligationsTotal: 0
-        });
-      }
+    if (data.amountPaid) {
+      return userRef.update({
+        obligationsCount: userData.obligationsCount - 1,
+        obligationsToDateTotal: userData.obligationsToDateTotal - Number(data.amountPaid),
+        obligationsScheduledTotal: userData.obligationsScheduledTotal - Number(data.expectedAmount),
+      });
     } else {
-      if (userData.obligationsCount - 1 < 0) {
-        return userRef.update({
-          obligationsCount: 0,
-          obligationsTotal: userData.obligationsTotal - Number(data.expectedAmount)
-        });
-      } else {
-        return userRef.update({
-          obligationsCount: userData.obligationsCount - 1,
-          obligationsTotal: userData.obligationsTotal - Number(data.expectedAmount)
-        });
-      }
+      return userRef.update({
+        obligationsCount: userData.obligationsCount - 1,
+        obligationsScheduledTotal: userData.obligationsScheduledTotal - Number(data.expectedAmount),
+      });
     }
-
 
 });
 
@@ -80,7 +66,7 @@ export const obligationUpdate = functions.firestore
       // });
 
       return userRef.update({
-        earningsTotal: userData.earningsTotal - after.amountPaid
+        obligationsToDateTotal: userData.obligationsToDateTotal + Number(after.amountPaid)
       });
 
     } else {

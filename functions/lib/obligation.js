@@ -20,7 +20,7 @@ exports.obligationIncrement = functions.firestore
     const userData = userSnap.data();
     return userRef.update({
         obligationsCount: userData.obligationsCount + 1,
-        obligationsTotal: userData.obligationsTotal + Number(data.expectedAmount)
+        obligationsScheduledTotal: userData.obligationsScheduledTotal + Number(data.expectedAmount)
     });
 }));
 exports.obligationDecrement = functions.firestore
@@ -30,33 +30,18 @@ exports.obligationDecrement = functions.firestore
     const userRef = db.doc(`users/${data.owner}`);
     const userSnap = yield userRef.get();
     const userData = userSnap.data();
-    if (userData.obligationsTotal - Number(data.expectedAmount) < 0) {
-        if (userData.obligationsCount - 1 < 0) {
-            return userRef.update({
-                obligationsCount: 0,
-                obligationsTotal: 0
-            });
-        }
-        else {
-            return userRef.update({
-                obligationsCount: userData.obligationsCount - 1,
-                obligationsTotal: 0
-            });
-        }
+    if (data.amountPaid) {
+        return userRef.update({
+            obligationsCount: userData.obligationsCount - 1,
+            obligationsToDateTotal: userData.obligationsToDateTotal - Number(data.amountPaid),
+            obligationsScheduledTotal: userData.obligationsScheduledTotal - Number(data.expectedAmount),
+        });
     }
     else {
-        if (userData.obligationsCount - 1 < 0) {
-            return userRef.update({
-                obligationsCount: 0,
-                obligationsTotal: userData.obligationsTotal - Number(data.expectedAmount)
-            });
-        }
-        else {
-            return userRef.update({
-                obligationsCount: userData.obligationsCount - 1,
-                obligationsTotal: userData.obligationsTotal - Number(data.expectedAmount)
-            });
-        }
+        return userRef.update({
+            obligationsCount: userData.obligationsCount - 1,
+            obligationsScheduledTotal: userData.obligationsScheduledTotal - Number(data.expectedAmount),
+        });
     }
 }));
 exports.obligationUpdate = functions.firestore
@@ -80,7 +65,7 @@ exports.obligationUpdate = functions.firestore
         //   console.error("Error writing document: ", error);
         // });
         return userRef.update({
-            earningsTotal: userData.earningsTotal - after.amountPaid
+            obligationsToDateTotal: userData.obligationsToDateTotal + Number(after.amountPaid)
         });
     }
     else {

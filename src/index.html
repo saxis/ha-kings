@@ -1,24 +1,51 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8">
-    <title>Suten.io</title>
-    <base href="/">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="icon" type="image/x-icon" href="favicon.ico">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
-    <link href="https://fonts.googleapis.com/css?family=Strait" rel="stylesheet">
-    <script src="https://unpkg.com/uport-connect/dist/uport-connect.js"></script>
+    <meta charset="utf-8" />
+    <title>Suten.eth</title>
+    <base href="/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
+      integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU"
+      crossorigin="anonymous"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Strait"
+      rel="stylesheet"
+    />
+    <!-- <script>
+      (function(d, s) {
+        var js = d.createElement(s),
+          sc = d.getElementsByTagName(s)[0];
+        js.src = "https://paywall.unlock-protocol.com/static/unlock.1.0.min.js";
+        sc.parentNode.insertBefore(js, sc);
+      })(document, "script");
+    </script> -->
+
+    <!-- <script>
+      var unlockProtocolConfig = {
+        // locks: {
+        //   "00x435E2441b27A44956886cEf6A53DecBDbDCD67F7": {
+        //     name: "CopaLock"
+        //   }
+        // },
+        locks: {
+          '0xB0114bbDCe17e0AF91b2Be32916a1e236cf6034F': {
+            name: 'The Unlock Members lock',
+          },
+        },
+        icon:
+          "https://unlock-protocol.com/static/images/svg/unlock-word-mark.svg",
+        callToAction: {
+          default: "Please Unlock things!"
+        }
+      };
+    </script> -->
   </head>
   <body>
-      <!-- <script type="text/javascript">
-        const Connect = window.uportconnect
-        const uport = new Connect('Suten.io')
-        uport.requestDisclosure({requested: ['name']})
-        uport.onResponse('disclosureReq').then(res => {
-            <app-root></app-root>
-        });
-      </script> -->
-      <app-root></app-root>
+    <app-root></app-root>
   </body>
 </html>

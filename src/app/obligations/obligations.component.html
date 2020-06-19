@@ -9,11 +9,9 @@
     <ul>
       <li>Income allocated to spend on Obligations for the month - obligationsTotal</li>
       <li>Total currently obligated - obligationsScheduledTotal</li>
-      <li>Total spent so far for the month </li>
-      <li>Remaining spend for the month</li>
+      <li>Total spent so far for the month - obligationsToDateTotal</li>
+      <li>Remaining spend for the month - Derived</li>
     </ul>
-    <p>Obligations is a list of all the monthly bills a person has. You should be able to click
-        on any of the bills to get more details. The details will show up in card to the right of the list.</p>
 
   </div>
   <div class="columns">
@@ -30,6 +28,7 @@
             </span>
           </p>
         </div>
+
         <div *ngFor="let item of obligationsList | async">
           <a class="panel-block is-active has-icons-right control">
             {{item.biller}} || {{item.expectedAmount}} || {{item.dueDate}}

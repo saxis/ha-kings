@@ -1,48 +1,32 @@
 <nav class="level" *ngIf="auth.user | async as user">
     <div class="level-item has-text-centered">
       <div>
-        <p class="heading">Income Allocated to Obligations this month</p>
+        <p class="heading">JAN Allocated Income</p>
         <p class="title">{{user.obligationsTotal | currency:'USD':true:'1.2'}}</p>
       </div>
     </div>
     <div class="level-item has-text-centered">
       <div>
-        <p class="heading">Planned Obligation spend this month</p>
+        <p class="heading">JAN Planned Spend</p>
         <p class="title">{{user.obligationsScheduledTotal | currency:'USD':true:'1.2'}}</p>
-        <!-- <p class="heading">Desires Total</p>
-        <p class="title">{{user.desiresTotal | currency:'USD':true:'1.2'}}</p> -->
       </div>
     </div>
     <div class="level-item has-text-centered">
+        <div>
+          <p class="heading">JAN Actual Spend</p>
+          <p class="title">{{user.obligationsToDateTotal | currency:'USD':true:'1.2'}}</p>
+        </div>
+      </div>
+    <div class="level-item has-text-centered">
       <div>
-        <p class="heading">Difference</p>
+        <p class="heading">Allocated less Planned</p>
         <p class="title">{{user.obligationsTotal - user.obligationsScheduledTotal | currency:'USD':true:'1.2'}}</p>
-        <!-- <p class="heading">Desires Total</p>
-        <p class="title">{{user.desiresTotal | currency:'USD':true:'1.2'}}</p> -->
-      </div>
-    </div>
-    <!-- <div class="level-item has-text-centered">
-      <div>
-        <p class="heading">Financial Total</p>
-        <p class="title">{{user.financesTotal | currency:'USD':true:'1.2'}}</p>
-      </div>
-    </div> -->
-    <!-- <div class="level-item has-text-centered">
-      <div>
-        <p class="heading">Remaining Earnings</p>
-        <p class="title">{{user.earningsTotal | currency:'USD':true:'1.2'}}</p>
       </div>
     </div>
     <div class="level-item has-text-centered">
       <div>
-        <p class="heading">Remaining Debt</p>
-        <p class="title">{{user.debtsTotal | currency:'USD':true:'1.2'}}</p>
+        <p class="heading">Allocated less Actual</p>
+        <p class="title">{{user.obligationsTotal - user.obligationsToDateTotal | currency:'USD':true:'1.2'}}</p>
       </div>
     </div>
-    <div class="level-item has-text-centered">
-      <div>
-        <p class="heading">Assets Total</p>
-        <p class="title">{{user.assetsTotal | currency:'USD':true:'1.2'}}</p>
-      </div>
-    </div> -->
   </nav>

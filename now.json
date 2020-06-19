@@ -1,0 +1,35 @@
+{
+  "version": 2,
+  "name": "suten",
+  "alias": "suten",
+  "routes": [
+    {
+      "src": "/(assets/.+|.+\\.css|.+\\.js)",
+      "headers": {
+        "cache-control": "max-age=31536000,immutable"
+      },
+      "dest": "/$1"
+    },
+    {
+      "src": "/(.*).html",
+      "headers": {
+        "cache-control": "public,max-age=0,must-revalidate"
+      },
+      "dest": "/$1.html"
+    },
+    {
+      "src": "/(.*).json",
+      "headers": {
+        "cache-control": "public,max-age=0,must-revalidate"
+      },
+      "dest": "/$1.json"
+    },
+    {
+      "src": "/(.*)",
+      "headers": {
+        "cache-control": "public,max-age=0,must-revalidate"
+      },
+      "dest": "/index.html"
+    }
+  ]
+}

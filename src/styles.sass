@@ -1,39 +1,39 @@
 /* You can add global styles to this file, and also import other style files */
 
 $primary: hsl(281%, 17%, 37%)
-$color1: hsla(0%, 14%, 78%, 1);
-$color2: hsla(39%, 42%, 87%, 1);
-$color3: hsla(12%, 29%, 77%, 1);
-$color4: hsla(358%, 24%, 52%, 1);
-$color5: hsla(337%, 41%, 30%, 1);
+$color1: hsla(0%, 14%, 78%, 1)
+$color2: hsla(39%, 42%, 87%, 1)
+$color3: hsla(12%, 29%, 77%, 1)
+$color4: hsla(358%, 24%, 52%, 1)
+$color5: hsla(337%, 41%, 30%, 1)
 
 
 /* in-flight clone */
 .gu-mirror
-  position: fixed !important;
-  margin: 0 !important;
-  z-index: 9999 !important;
-  opacity: 0.8;
-  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
-  filter: alpha(opacity=80);
-  pointer-events: none;
+  position: fixed !important
+  margin: 0 !important
+  z-index: 9999 !important
+  opacity: 0.8
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)"
+  filter: alpha(opacity=80)
+  pointer-events: none
 
 /* high-performance display:none; helper */
 .gu-hide
-  left: -9999px !important;
+  left: -9999px !important
 
 /* added to mirrorContainer (default = body) while dragging */
 
 .gu-unselectable
-  -webkit-user-select: none !important;
-  -moz-user-select: none !important;
-  -ms-user-select: none !important;
-  user-select: none !important;
+  -webkit-user-select: none !important
+  -moz-user-select: none !important
+  -ms-user-select: none !important
+  user-select: none !important
 
 
 /* added to the source element while its mirror is dragged */
 .gu-transit
-  opacity: 0.2;
-  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=20)";
-  filter: alpha(opacity=20);
+  opacity: 0.2
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=20)"
+  filter: alpha(opacity=20)
 
