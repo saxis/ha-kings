@@ -8,8 +8,8 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "now-build":"rm -rf dist; ng build --prod; cd dist/ha-kings2;mv * ..; cd ..; rm -rf ha-kings2",
-    "now-deploy":"now ./dist -A ../now.json --prod"
+    "now-build": "rm -rf dist; ng build --prod; cd dist/ha-kings2;mv * ..; cd ..; rm -rf ha-kings2",
+    "now-deploy": "now ./dist -A ../now.json --prod"
   },
   "private": true,
   "dependencies": {
@@ -39,8 +39,8 @@
     "zone.js": "~0.9.1"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "~0.803.23",
-    "@angular/cli": "~8.3.23",
+    "@angular-devkit/build-angular": "~0.803.27",
+    "@angular/cli": "~8.3.27",
     "@angular/compiler-cli": "^8.2.14",
     "@angular/language-service": "^8.2.14",
     "@types/jasmine": "^3.3.16",
