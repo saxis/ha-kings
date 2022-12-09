@@ -26,7 +26,7 @@
     "@walletconnect/browser": "^1.0.0",
     "bulma": "^0.7.5",
     "core-js": "^2.6.11",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "firebase": "^5.11.1",
     "ngrok": "^3.2.7",
     "path": "^0.12.7",
