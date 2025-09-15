@@ -1,26 +1,19 @@
+// src/app/app.component.ts
 import { Component } from '@angular/core';
-import { AuthService, User } from './core/auth.service';
-import { Observable } from 'rxjs';
+import { RouterOutlet } from '@angular/router';
+import { NavComponent } from './nav/nav.component';
+import { FooterComponent } from './footer/footer.component';
+import { AuthService } from './core/auth.service';
 
 @Component({
   selector: 'app-root',
+  standalone: true,
+  imports: [RouterOutlet, NavComponent, FooterComponent],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.sass']
 })
 export class AppComponent {
   title = 'ha-kings2';
-  user$: Observable<User | null>;
-
-  constructor(public auth: AuthService) {
-    this.auth.restore();
-    this.user$ = this.auth.user$;
-  }
-
-  isLoggedIn(): boolean {
-    return !!this.auth.user$.getValue?.() || !!localStorage.getItem('hak_user');
-  }
-
-  logout(): void {
-    this.auth.signOut();
-  }
+  constructor(public auth: AuthService) { this.auth.restore(); }
+  isLoggedIn() { return this.auth.isLoggedIn() || !!localStorage.getItem('hak_user'); }
 }

@@ -22,4 +22,10 @@ export class AuthService {
     const raw = localStorage.getItem('hak_user');
     if (raw) this._user$.next(JSON.parse(raw));
   }
+
+  // add:
+  isLoggedIn(): boolean {
+    return this._user$.value != null;
+  }
+
 }

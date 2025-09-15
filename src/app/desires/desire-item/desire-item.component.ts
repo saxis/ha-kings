@@ -1,7 +1,21 @@
+// src/app/desires/desire-item/desire-item.component.ts
 import { Component, OnInit } from '@angular/core';
-import { AngularFirestore } from '@angular/fire/firestore';
+import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
-import { switchMap, map } from 'rxjs/operators';
+import { switchMap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+
+interface Desire {
+  id?: number;
+  name: string;
+  detail?: string;
+  year?: number;
+  amount: number;
+  fulfilled: boolean;
+  donated?: boolean;
+  recipient?: string;
+  owner?: string;
+}
 
 @Component({
   selector: 'app-desire-item',
@@ -9,18 +23,13 @@ import { switchMap, map } from 'rxjs/operators';
   styleUrls: ['./desire-item.component.sass']
 })
 export class DesireItemComponent implements OnInit {
-  item$;
+  item$!: Observable<Desire | undefined>;
 
-  constructor(private afs: AngularFirestore, private route: ActivatedRoute) { }
+  constructor(private http: HttpClient, private route: ActivatedRoute) { }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.item$ = this.route.paramMap.pipe(
-      switchMap(params => {
-        const id = params.get('id');
-        return this.afs.doc('desires/' + id).valueChanges();
-      })
+      switchMap(params => this.http.get<Desire>(`/api/desires/${params.get('id')}`))
     );
-    // this.item$ = this.route.data.pipe(map(val => val[0]));
   }
-
 }

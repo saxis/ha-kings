@@ -1,57 +1,60 @@
+// src/app/earnings/earnings.component.ts
 import { Component, OnInit } from '@angular/core';
-import { Earning } from '../../models/earning.model';
-import { NgForm } from '@angular/forms';
-import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
-import { Observable } from 'rxjs';
-import { AuthService } from '../core/auth.service';
-import { map } from 'rxjs/operators';
+import { CommonModule } from '@angular/common';
+import { FormsModule, NgForm } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
+import { Observable, of } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
+import { AuthService, User } from '../core/auth.service';
+
+export interface Earning {
+  id?: number; source: string; date?: string; amount: number; owner: string;
+}
 
 @Component({
   selector: 'app-earnings',
+  standalone: true,
+  imports: [CommonModule, FormsModule],
   templateUrl: './earnings.component.html',
   styleUrls: ['./earnings.component.sass']
 })
 export class EarningsComponent implements OnInit {
-  earningsCollection: AngularFirestoreCollection<Earning>;
-  earningsList: Observable<Earning[]>;
-  userId: string;
+  earningsList: Observable<Earning[]> = of([]);
+  userId = '';
 
-  constructor(private afs: AngularFirestore, private as: AuthService) {
-    this.as.afAuth.authState.subscribe(user => {
-      if (user) {
-        this.userId = user.uid;
-      }
-    });
-  }
+  constructor(private http: HttpClient, private auth: AuthService) { }
 
-  ngOnInit() {
-    // Need to get the current month and then add a where clause for the current month only
-
-    this.earningsCollection = this.afs.collection('earnings', ref => ref.where('owner', '==', this.userId));
-    this.earningsList = this.earningsCollection.snapshotChanges().pipe(
-      map(actions => {
-        return actions.map(a => {
-          const data = a.payload.doc.data() as Earning;
-          const id = a.payload.doc.id;
-          return { id, ...data };
-        });
+  ngOnInit(): void {
+    this.auth.restore();
+    this.earningsList = this.auth.user$.pipe(
+      switchMap((u: User | null) => {
+        this.userId = u?.id ?? '';
+        return this.http.get<Earning[]>('/api/income').pipe(
+          map(list => this.userId ? list.filter(e => e.owner === this.userId) : list)
+        );
       })
     );
   }
 
-  removeEarning(earning) {
-    const doc = this.afs.doc(`earnings/${earning.id}`);
-    doc.delete();
+  private reload(): void {
+    this.earningsList = this.http.get<Earning[]>('/api/income').pipe(
+      map(list => this.userId ? list.filter(e => e.owner === this.userId) : list)
+    );
   }
 
-  onSubmit(f: NgForm) {
-    const earning = new Earning(f.value.source, f.value.date, f.value.amount, this.userId);
+  removeEarning(earning: Earning): void {
+    if (!earning.id) return;
+    this.http.delete(`/api/income/${earning.id}`).subscribe(() => this.reload());
+  }
 
-    const data = JSON.parse(JSON.stringify(earning));
-
-    this.earningsCollection.add(data);
-
+  onSubmit(f: NgForm): void {
+    const payload: Earning = {
+      source: f.value.source,
+      date: f.value.date || null,
+      amount: Number(f.value.amount || 0),
+      owner: this.userId
+    };
+    this.http.post<Earning>('/api/income', payload).subscribe(() => this.reload());
     f.reset();
   }
-
 }
