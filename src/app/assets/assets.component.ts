@@ -1,61 +1,75 @@
+// src/app/assets/assets.component.ts
 import { Component, OnInit } from '@angular/core';
-import { Asset } from '../../models/asset.model';
-import { NgForm } from '@angular/forms';
-import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
-import { Observable } from 'rxjs';
-import { AuthService } from '../core/auth.service';
-import { map } from 'rxjs/operators';
+import { CommonModule } from '@angular/common';
+import { FormsModule, NgForm } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
+import { Observable, of } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
+import { AuthService, User } from '../core/auth.service';
+
+export interface Asset {
+  id?: number;
+  asset_denomination: string;
+  balance: number;
+  purchase_price_per_full_unit: number;
+  current_price_per_full_unit: number;
+  purchase_val: number;
+  current_val: number;
+  owner: string;
+}
 
 @Component({
   selector: 'app-assets',
+  standalone: true,
+  imports: [CommonModule, FormsModule],
   templateUrl: './assets.component.html',
   styleUrls: ['./assets.component.sass']
 })
 export class AssetsComponent implements OnInit {
-  assetsCollection: AngularFirestoreCollection<Asset>;
-  assetsList$: Observable<Asset[]>;
-  userId: string;
+  assetsList$: Observable<Asset[]> = of([]);
+  userId = '';
 
-  constructor(private afs: AngularFirestore, private as: AuthService) {
-    this.as.afAuth.authState.subscribe(user => {
-      if (user) {
-        this.userId = user.uid;
-      }
-    });
-  }
+  constructor(private http: HttpClient, private auth: AuthService) { }
 
-  ngOnInit() {
-    // Need to get the current month and then add a where clause for the current month only
-
-    this.assetsCollection = this.afs.collection('assets', ref => ref.where('owner', '==', this.userId));
-    this.assetsList$ = this.assetsCollection.snapshotChanges().pipe(
-      map(actions => {
-        return actions.map(a => {
-          const data = a.payload.doc.data() as Asset;
-          const id = a.payload.doc.id;
-          return { id, ...data };
-        });
+  ngOnInit(): void {
+    this.auth.restore();
+    this.assetsList$ = this.auth.user$.pipe(
+      switchMap((u: User | null) => {
+        this.userId = u?.id ?? '';
+        return this.http.get<Asset[]>('/api/assets').pipe(
+          map(list => this.userId ? list.filter(a => a.owner === this.userId) : list)
+        );
       })
     );
   }
 
-  removeAsset(asset) {
-    const doc = this.afs.doc(`assets/${asset.id}`);
-    doc.delete();
+  private reload(): void {
+    this.assetsList$ = this.http.get<Asset[]>('/api/assets').pipe(
+      map(list => this.userId ? list.filter(a => a.owner === this.userId) : list)
+    );
   }
 
-  onSubmit(f: NgForm) {
-    const purchase_val = Number(f.value.balance * f.value.purchase_price_per_full_unit).toFixed(2);
-    const current_val = Number(f.value.balance * f.value.current_price_per_full_unit).toFixed(2);
+  removeAsset(asset: Asset): void {
+    if (!asset.id) return;
+    this.http.delete(`/api/assets/${asset.id}`).subscribe(() => this.reload());
+  }
 
-    const debt = new Asset(f.value.asset_denomination, f.value.balance, f.value.purchase_price_per_full_unit,
-      f.value.current_price_per_full_unit, purchase_val, current_val, this.userId);
+  onSubmit(f: NgForm): void {
+    const balance = Number(f.value.balance || 0);
+    const ppu = Number(f.value.purchase_price_per_full_unit || 0);
+    const cpu = Number(f.value.current_price_per_full_unit || 0);
 
-    const data = JSON.parse(JSON.stringify(debt));
+    const payload: Asset = {
+      asset_denomination: f.value.asset_denomination,
+      balance,
+      purchase_price_per_full_unit: ppu,
+      current_price_per_full_unit: cpu,
+      purchase_val: Number((balance * ppu).toFixed(2)),
+      current_val: Number((balance * cpu).toFixed(2)),
+      owner: this.userId
+    };
 
-    this.assetsCollection.add(data);
-
+    this.http.post<Asset>('/api/assets', payload).subscribe(() => this.reload());
     f.reset();
   }
-
 }

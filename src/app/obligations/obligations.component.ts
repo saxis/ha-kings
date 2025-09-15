@@ -1,10 +1,21 @@
+// src/app/obligations/obligations.component.ts
 import { Component, OnInit } from '@angular/core';
-import { Obligation } from '../../models/obligation.model';
 import { NgForm } from '@angular/forms';
-import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
-import { Observable } from 'rxjs';
-import { AuthService } from '../core/auth.service';
-import { map } from 'rxjs/operators';
+import { HttpClient } from '@angular/common/http';
+import { map, switchMap } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { AuthService, User } from '../core/auth.service';
+
+export interface Obligation {
+  id?: number;
+  biller: string;
+  dueDate?: string;     // ISO yyyy-mm-dd
+  datePaid?: string;    // ISO
+  expectedAmount: number;
+  amountPaid?: number;
+  paid: boolean;
+  owner: string;        // user id
+}
 
 @Component({
   selector: 'app-obligations',
@@ -12,54 +23,53 @@ import { map } from 'rxjs/operators';
   styleUrls: ['./obligations.component.sass']
 })
 export class ObligationsComponent implements OnInit {
-  obligationsCollection: AngularFirestoreCollection<Obligation>;
-  obligationsList: Observable<Obligation[]>;
-  userId: string;
-  amountPaid: number;
+  obligationsList: Observable<Obligation[]> = of([]);
+  userId = '';
+  amountPaid = 0;
 
-  constructor(private afs: AngularFirestore, private as: AuthService) {
-    this.as.afAuth.authState.subscribe(user => {
-      if (user) {
-        this.userId = user.uid;
-      }
-    });
-  }
+  constructor(private http: HttpClient, private auth: AuthService) { }
 
-  ngOnInit() {
-    this.obligationsCollection = this.afs.collection('obligations', ref => ref.where('owner', '==', this.userId));
-    this.obligationsList = this.obligationsCollection.snapshotChanges().pipe(
-      map(actions => {
-        return actions.map(a => {
-          const data = a.payload.doc.data() as Obligation;
-          const id = a.payload.doc.id;
-          return { id, ...data };
-        });
+  ngOnInit(): void {
+    this.auth.restore();
+    this.obligationsList = this.auth.user$.pipe(
+      switchMap((u: User | null) => {
+        this.userId = u?.id ?? '';
+        return this.http.get<Obligation[]>('/api/obligations').pipe(
+          map(list => this.userId ? list.filter(o => o.owner === this.userId) : list)
+        );
       })
     );
   }
 
-  removeObligation(obligation) {
-    const doc = this.afs.doc(`obligations/${obligation.id}`);
-    doc.delete();
+  reload(): void {
+    this.obligationsList = this.http.get<Obligation[]>('/api/obligations').pipe(
+      map(list => this.userId ? list.filter(o => o.owner === this.userId) : list)
+    );
   }
 
-  payNow(u: NgForm, obligation) {
-    console.log(u.value.amountPaid);
-    console.log(obligation);
-    const doc = this.afs.doc(`obligations/${obligation.id}`);
-    doc.update({paid: true, amountPaid: u.value.amountPaid });
-    // console.log('Clicking this should decrease the earnings total by the desires amount');
+  removeObligation(obligation: Obligation): void {
+    if (!obligation.id) return;
+    this.http.delete(`/api/obligations/${obligation.id}`).subscribe(() => this.reload());
   }
 
-  onSubmit(f: NgForm) {
-    const obligation = new Obligation(f.value.biller, f.value.dueDate, f.value.datePaid,
-      f.value.expectedAmount, f.value.amountPaid, false, this.userId);
-
-    const data = JSON.parse(JSON.stringify(obligation));
-
-    this.obligationsCollection.add(data);
-
+  payNow(f: NgForm, obligation: Obligation): void {
+    if (!obligation.id) return;
+    const patch = { paid: true, amountPaid: Number(f.value.amountPaid || 0) };
+    this.http.put<Obligation>(`/api/obligations/${obligation.id}`, patch).subscribe(() => this.reload());
     f.reset();
   }
 
+  onSubmit(f: NgForm): void {
+    const payload: Obligation = {
+      biller: f.value.biller,
+      dueDate: f.value.dueDate || null,
+      datePaid: f.value.datePaid || null,
+      expectedAmount: Number(f.value.expectedAmount || 0),
+      amountPaid: Number(f.value.amountPaid || 0),
+      paid: false,
+      owner: this.userId
+    };
+    this.http.post<Obligation>('/api/obligations', payload).subscribe(() => this.reload());
+    f.reset();
+  }
 }

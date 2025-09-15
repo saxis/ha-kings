@@ -8,9 +8,6 @@ import { Sortable } from '@shopify/draggable';
 export class SortableDirective implements AfterViewInit {
   @Input() data: any[];
 
-  // @Output() start = new EventEmitter();
-  // @Output() sort  = new EventEmitter();
-  // @Output() sorted = new EventEmitter();
   @Output() stop = new EventEmitter();
 
   sortable: Sortable;
@@ -34,7 +31,7 @@ export class SortableDirective implements AfterViewInit {
     console.log(e);
     const { newIndex, oldIndex } = e;
     const next = this.data;
-    const moved = next.splice(oldIndex, 1) ;
+    const moved = next.splice(oldIndex, 1);
     next.splice(newIndex, 0, moved[0]);
 
     this.stop.emit(next);

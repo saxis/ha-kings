@@ -1,27 +1,16 @@
-import { Component, Inject } from '@angular/core';
-import { WINDOW } from '../core/services/window.service';
+// src/app/main/main.component.ts
+import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { HeroComponent } from '../hero/hero.component';
 
 @Component({
   selector: 'app-main',
+  standalone: true,
+  imports: [CommonModule, HeroComponent],
   templateUrl: './main.component.html',
   styleUrls: ['./main.component.sass']
 })
 export class MainComponent {
-  locked;
-
-  constructor(@Inject(WINDOW) private window: Window) {
-    console.log(window);
-  }
-
-  checkout(ev) {
-    console.log('in the checkout method ', ev.detail);
-    console.log('the ev object ', ev);
-    const locked = localStorage.getItem('__unlockProtocol.locked');
-    const account = localStorage.getItem('__unlockProtocol.accountAddress');
-    console.log('locked: ', locked);
-    console.log('account address: ', account);
-    if (window) {
-      //window.unlockProtocol && window.unlockProtocol.loadCheckoutModal()
-    }
-  }
+  locked: string | null = null;
+  checkout(ev: Event) { /* ... */ }
 }
