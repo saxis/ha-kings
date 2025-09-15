@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { AuthService } from './core/auth.service';
+import { AuthService, User } from './core/auth.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -8,10 +9,18 @@ import { AuthService } from './core/auth.service';
 })
 export class AppComponent {
   title = 'ha-kings2';
+  user$: Observable<User | null>;
 
-  constructor(public auth: AuthService) {}
+  constructor(public auth: AuthService) {
+    this.auth.restore();
+    this.user$ = this.auth.user$;
+  }
 
-  isLoggedIn() {
-    return this.auth.isLoggedIn();
+  isLoggedIn(): boolean {
+    return !!this.auth.user$.getValue?.() || !!localStorage.getItem('hak_user');
+  }
+
+  logout(): void {
+    this.auth.signOut();
   }
 }
