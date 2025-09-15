@@ -1,5 +1,9 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { HttpClientModule } from '@angular/common/http';
+import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
+import { InMemoryDataService } from './mock/in-memory-data.service';
+
 //import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 // import { library } from '@fortawesome/fontawesome-svg-core';
 // import { fas } from '@fortawesome/free-solid-svg-icons';
@@ -17,9 +21,6 @@ import { FormsModule } from '@angular/forms';
 import { HeroComponent } from './hero/hero.component';
 import { MediaComponent } from './media/media.component';
 import { FooterComponent } from './footer/footer.component';
-import { AngularFireModule } from '@angular/fire';
-import { AngularFireDatabaseModule } from '@angular/fire/database';
-import { AngularFireStorageModule } from '@angular/fire/storage';
 import { CoreModule } from './core/core.module';
 import { environment } from '../environments/environment';
 import { UserProfileComponent } from './user-profile/user-profile.component';
@@ -59,14 +60,13 @@ export const firebaseConfig = environment.firebaseConfig;
     AuthGuard
   ],
   imports: [
+    HttpClientModule,
+    HttpClientInMemoryWebApiModule.forRoot(InMemoryDataService, { delay: 300 }),
     CoreModule,
     // FontAwesomeModule,
     AppRoutingModule,
     BrowserModule,
-    FormsModule,
-    AngularFireModule.initializeApp(environment.firebaseConfig),
-    AngularFireDatabaseModule,
-    AngularFireStorageModule
+    FormsModule
   ],
   bootstrap: [AppComponent],
   exports: [ObligationDetailComponent]
